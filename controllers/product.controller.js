@@ -8,7 +8,7 @@ var express = require("express");
 
 var router = express.Router();
 
-/* retrieve all products */
+/* RETRIEVE all products -- uses get http verb */
 router.get("/", (request,response)=> {
     connection.query("select * from products",(error,records,fields)=>{
         if (error) {
@@ -19,7 +19,7 @@ router.get("/", (request,response)=> {
     })
 })
 
-/* retrieve a single products record using id param */
+/* RETRIEVE a single products record using id param -- uses get http verb */
 router.get("/:id", (request,response)=> {
     connection.query("select * from products where id=" + request.params.id,(error,records,fields)=>{
         if (error) {
@@ -30,7 +30,7 @@ router.get("/:id", (request,response)=> {
     })
 })
 
-/* create a products record using an insert query*/
+/* CREATE a products record using an insert query -- uses post http verb */
 router.post("/", (request,response)=> {
     var id = request.body.id;
     var name = request.body.name;
@@ -45,6 +45,38 @@ router.post("/", (request,response)=> {
         }
     })
 })
+
+
+/* UPDATE a products record -- uses put http verb */
+router.put("/", (request,response)=> {
+    var id = request.body.id;
+    var name = request.body.name;
+    var price = request.body.price;
+
+    console.log("update products set name='"+name+"',price="+price+" where id=" + id);
+    connection.query("update products set name='"+name+"',price="+price+" where id=" + id,(error,result)=>{
+        if (error) {
+            console.error("Error while updating data: " + error);
+        } else {
+            response.send({update:"success"});
+        }
+    })
+})
+
+/* DELETE a single products record using id param -- uses delete http verb */
+router.delete("/:id", (request,response)=> {
+    console.log("delete from products where id=" + request.params.id);
+    connection.query("delete from products where id=" + request.params.id,(error,records,fields)=>{
+        if (error) {
+            console.error("Error while deleting data");
+        } else {
+            response.send({delete:"Success"});
+        }
+    })
+})
+
+
+
 
 module.exports = router;
 
