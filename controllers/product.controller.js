@@ -51,10 +51,11 @@ router.post("/", (request,response)=> {
 router.put("/", (request,response)=> {
     var id = request.body.id;
     var name = request.body.name;
+    var description = request.body.description;
     var price = request.body.price;
 
-    console.log("update products set name='"+name+"',price="+price+" where id=" + id);
-    connection.query("update products set name='"+name+"',price="+price+" where id=" + id,(error,result)=>{
+    console.log("update products set name='"+name+"', description='"+description+"', price="+price+" where id=" + id);
+    connection.query("update products set name='"+name+"', description='"+description+"', price="+price+" where id=" + id,(error,result)=>{
         if (error) {
             console.error("Error while updating data: " + error);
         } else {
