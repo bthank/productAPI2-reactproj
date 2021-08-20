@@ -1,6 +1,10 @@
 var express = require("express");
+var bodyparser = require("body-parser");
 
 var app = express();
+
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({extended:false}));
 
 var productAPI2 = require("./controllers/product.controller");
 
